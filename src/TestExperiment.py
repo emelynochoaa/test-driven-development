@@ -26,12 +26,35 @@ class TestExperiment(unittest.TestCase):
         self.assertTrue(np.all(np.diff(sorted_fa) >= 0)) 
     
     def test_compute_auc(self):
-        self.exp.add_condition(SignalDetection(0, 0, 0, 1))  
-        self.exp.add_condition(SignalDetection(1, 0, 0, 0))  
+        self.exp.add_condition(SignalDetection(0, 1, 0, 1))  
+        self.exp.add_condition(SignalDetection(1, 0, 0, 1))  
         self.exp.add_condition(SignalDetection(1, 0, 1, 0)) 
         
         auc = self.exp.compute_auc()
         self.assertAlmostEqual(auc, 1.0, places=2)
+
+    def test_compute_auc_1(self):
+        self.exp.add_condition(SignalDetection(0, 1, 0, 1))  
+        self.exp.add_condition(SignalDetection(1, 0, 1, 0))  
+        
+        auc = self.exp.compute_auc()
+        self.assertAlmostEqual(auc, 0.5, places=2)
+    
+    def test_compute_auc_2(self):
+        self.exp.add_condition(SignalDetection(0, 1, 1, 0))  
+        self.exp.add_condition(SignalDetection(1, 0, 0, 1))  
+        
+        auc = self.exp.compute_auc()
+        self.assertAlmostEqual(auc, 0.5, places=2)
+
+    def test_compute_auc_3(self):
+        self.exp.add_condition(SignalDetection(0, 1, 0, 1))  
+        self.exp.add_condition(SignalDetection(0.5, 0.5, 0.5, 0.5))  
+        self.exp.add_condition(SignalDetection(0, 1, 0.5, 0.5)) 
+        
+        auc = self.exp.compute_auc()
+        self.assertAlmostEqual(auc, 0.125, places=3)
+
     
     def test_empty_experiment(self):
         with self.assertRaises(ValueError):
