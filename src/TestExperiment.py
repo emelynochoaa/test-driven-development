@@ -65,7 +65,6 @@ class TestExperiment(unittest.TestCase):
         auc = self.exp.compute_auc()
         self.assertAlmostEqual(auc, 0.0, places=2)
 
-    
     def test_empty_experiment(self):
         with self.assertRaises(ValueError):
             self.exp.sorted_roc_points()
@@ -75,6 +74,15 @@ class TestExperiment(unittest.TestCase):
     def test_invalid_add_condition(self):
         with self.assertRaises(TypeError):
             self.exp.add_condition("Not a SignalDetection object")
+    
+    def test_compute_auc_4(self):
+        self.exp.add_condition(SignalDetection(0.5, 1, 0, 0.5))  
+        self.exp.add_condition(SignalDetection(1, 0.5, 0.5, 0))  
+        self.exp.add_condition(SignalDetection(0, 0, 0.5, 0.5))
+
+        auc = self.exp.compute_auc()
+        self.assertAlmostEqual(auc, 0.25, places=3)
+
 
 if __name__ == '__main__':
     unittest.main()
