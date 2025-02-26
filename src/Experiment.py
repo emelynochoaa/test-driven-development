@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.integrate import trapz
+from scipy.integrate import trapezoid #correct function name 
 from SignalDetection import SignalDetection
 
 class Experiment:
@@ -30,7 +30,7 @@ class Experiment:
     
     def compute_auc(self) -> float:
         sorted_fa, sorted_hr = self.sorted_roc_points()
-        return trapz(sorted_hr, sorted_fa)
+        return trapezoid(sorted_hr, sorted_fa) #correct function name 
     
     def plot_roc_curve(self, show_plot: bool = True):
         sorted_fa, sorted_hr = self.sorted_roc_points()
