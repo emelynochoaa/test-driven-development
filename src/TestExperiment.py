@@ -56,7 +56,7 @@ class TestExperiment(unittest.TestCase):
         self.assertAlmostEqual(auc, 0.125, places=3)
 
     def test_compute_auc_zero(self):
-        self.exp.add_condition(SignalDetection(0, 0, 0, 0))
+        self.exp.add_condition(SignalDetection(0, 0, 0, 0)) 
         auc = self.exp.compute_auc()
         self.assertAlmostEqual(auc, 0.0, places=2)
 
